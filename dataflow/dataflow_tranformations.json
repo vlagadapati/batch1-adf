@@ -1,0 +1,79 @@
+{
+	"name": "dataflow_tranformations",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText25",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText26",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "derivedColumn2"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "filter2"
+				},
+				{
+					"name": "sort1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          employee_id as short,",
+				"          first_name as string,",
+				"          last_name as string,",
+				"          gender as string,",
+				"          age as short,",
+				"          salary as double,",
+				"          country as string,",
+				"          department_id as short,",
+				"          job_title as string,",
+				"          hire_date as string,",
+				"          email as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(New_name = 'Venkat') ~> derivedColumn1",
+				"derivedColumn1 filter(gender == 'Male') ~> filter1",
+				"filter1 derive(increased_salryry = salary+10000) ~> derivedColumn2",
+				"derivedColumn2 aggregate(groupBy(department_id),",
+				"     salary = sum(salary)) ~> aggregate1",
+				"aggregate1 filter(salary >170000) ~> filter2",
+				"filter2 sort(asc(salary, true)) ~> sort1",
+				"sort1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          department_id as string,",
+				"          new_department as string",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
