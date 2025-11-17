@@ -9,6 +9,12 @@
 					"referenceName": "pipeline8",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "Copy_CSV_source_sink",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
@@ -16,7 +22,7 @@
 			"recurrence": {
 				"frequency": "Minute",
 				"interval": 15,
-				"startTime": "2025-11-18T19:04:00",
+				"startTime": "2025-11-17T19:07:00",
 				"timeZone": "India Standard Time"
 			}
 		}
